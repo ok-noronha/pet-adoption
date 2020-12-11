@@ -47,6 +47,7 @@ def display_add_pet_form():
         db.session.add(pet)
         db.session.commit()
         flash(f"Added new pet: {pet.name}")
-        return redirect("/add")
+        return redirect("/")
     else:
-        render_template("add_pet.html", form=form)
+        print('form*****************: ', form.data)
+        return render_template("add_pet.html", form=form)

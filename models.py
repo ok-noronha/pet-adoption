@@ -20,7 +20,7 @@ def connect_db(app):
 class Pet(db.Model):
     """ pet class """
 
-    __tabtlename__ = "pets"
+    __tablename__ = "pets"
 
     id = db.Column(db.Integer,
                    primary_key=True,
@@ -37,6 +37,4 @@ class Pet(db.Model):
     notes = db.Column(db.Text)
     available = db.Column(db.Boolean,
                           nullable=False,
-                          server_default=True)
-
-
+                          default=True)
