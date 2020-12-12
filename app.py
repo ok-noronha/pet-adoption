@@ -49,15 +49,14 @@ def display_add_pet_form():
         flash(f"Added new pet: {pet.name}")
         return redirect("/")
     else:
-        print('form*****************: ', form.data)
         return render_template("add_pet.html", form=form)
 
 
 @app.route('/<int:pet_id>', methods=["GET", "POST"])
 def display_pet_details_and_edit_form(pet_id):
     """ Shows pet details and edit pet form """
-    form = EditPetForm()
     pet = Pet.query.get_or_404(pet_id)
+    form = EditPetForm(obj=pet)
     if form.validate_on_submit():
         print("*!*!*!*!*! IT WORKED !*!!"*10)
         pet.photo_url=form.photo_url.data
