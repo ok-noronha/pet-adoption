@@ -18,7 +18,7 @@ def connect_db(app):
 
 
 class Pet(db.Model):
-    """ pet class """
+    """ Pet class to abstract databse actions from our code """
 
     __tablename__ = "pets"
 

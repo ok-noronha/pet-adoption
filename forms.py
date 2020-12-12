@@ -13,8 +13,15 @@ class AddPetForm(FlaskForm):
     photo_url = StringField("Photo URL",
                             validators=[Optional(), URL()])
     age = SelectField("Age",
-                      choices=[('baby', 'young', 'adult', 'senior'),
-                               ('Baby', 'Young', 'Adult', 'Senior')],
-                      validators=[InputRequired()])
+                      choices=[('baby', 'Baby'), ('young', 'Young'),
+                               ('adult', 'Adult'), ('senior', 'Senior')])
     notes = StringField("Notes",
                         validators=[Optional()])
+
+class EditPetForm(FlaskForm):
+    """ Form to edit a pet. """
+    photo_url = StringField("Photo URL",
+                            validators=[Optional(), URL()])
+    notes = StringField("Notes",
+                        validators=[Optional()])
+    available = BooleanField("Available")

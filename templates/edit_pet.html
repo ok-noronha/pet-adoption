@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="">
+    <h2>
+        {{pet.name}}
+    </h2>
+    <img src="{{pet.photo_url}}">
+    <p>Age: {{pet.age}} </p>
+    <p>Species: {{pet.species}} </p>
+</div>
 
-<form action="/add" id="add_pet_form" name="add_pet_form" method="POST">
+<form action="/{{pet.id}}" id="edit_pet_form" name="edit_pet_form" method="POST">
   {{ form.hidden_tag() }}
 
  {% for field in form
