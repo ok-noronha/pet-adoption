@@ -4,9 +4,9 @@
 <ul>
     {% for pet in pets %}
     <li> <img class="petImage" src="{{pet.photo_url}}">
-        <p><a href="/{{pet.id}}">{{ pet.name }}</a> {%if pet.available %} <b>is available!</b> {%endif%} </p>
+        <p><a href="/pet/{{pet.id}}">{{ pet.name }}</a> {%if pet.available %} <b>is available!</b> {%endif%} </p>
     </li>
     {% endfor %}
 </ul>
-<a href="/add" class="btn btn-success">Add a Pet</a>
+<a href="/add" class="btn btn-success">Add Pet</a>
 {% endblock %}

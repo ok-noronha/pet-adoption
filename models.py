@@ -1,40 +1,19 @@
-"""Models for adopt app."""
-
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-
-DFLT_IMG = ''
+import json
 
 
-def connect_db(app):
-    """Connect this database to provided Flask app.
+class User:
+    def __init__(self, username, password, is_admin):
+        self.username = username
+        self.password = password
+        self.is_active = True
+        self.is_admin = is_admin
 
-    You should call this in your Flask app.
-    """
+    def deactivate(self):
+        self.is_active = False
 
-    db.app = app
-    db.init_app(app)
+    def promote(self):
+        self.is_admin = True 
 
+    def toString(self):
+        return "{" + self.username + ":" + self.password + ":" + str(self.is_admin) + "}"
 
-class Pet(db.Model):
-    """ Pet class to abstract databse actions from our code """
-
-    __tablename__ = "pets"
-
-    id = db.Column(db.Integer,
-                   primary_key=True,
-                   autoincrement=True)
-    name = db.Column(db.Text,
-                     nullable=False)
-    species = db.Column(db.Text,
-                        nullable=False)
-    photo_url = db.Column(db.Text,
-                          nullable=False,
-                          server_default=DFLT_IMG)
-    age = db.Column(db.Text,
-                    nullable=False)
-    notes = db.Column(db.Text)
-    available = db.Column(db.Boolean,
-                          nullable=False,
-                          default=True)
