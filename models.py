@@ -14,6 +14,5 @@ class User:
     def promote(self):
         self.is_admin = True 
 
-    def toString(self):
-        return "{" + self.username + ":" + self.password + ":" + str(self.is_admin) + "}"
-
+    def tolist(self):
+        return [self.username , self.password ,self.is_admin]

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Include DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.11.1/dist/full.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    
+    <br />
+    <div class=" grid grid-cols-3 gap-15 justify-around mx-10">
+        {% for item in items %}
+        <a href="/pet/?id={{item[0]}}">
+            <div class="card w-96 bg-base-100 shadow-xl ">
+                <figure><img src="{{item[3]}}" class ="w-full object-cover" alt="pet" /></figure>
+                <div class="card-body">
+                    <h2 class="card-title">
+                        {{item[1]}}
+                    </h2>
+                    <p id="breed">{{item[2]}}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+
+    </div>
+    <script src="https://cdn.tailwindcss.com/2.2.19/tailwind.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daisyui@1.11.1/dist/full.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <title>Google Line Chart</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable({{ data| safe}});
+        var options = {
+            title: 'Breed Count',
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            series: {
+                0: { color: "#008000" },
+            }
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('chart'));
+        chart.draw(data, options); 
+       } 
+    </script>
+    <style>
+        body {
+            font-size: 95%;
+            text-align: center;
+            background: linear-gradient(360deg, #1C1C1C 100%, #494949 360%), no-repeat;
+            background-size: cover;
+
+        }
+
+        div {
+    height: 400px;
+    background: linear-gradient(to bottom,#050434, #171979 100%)
+}
+
+        
+        .cont {
+            margin-top: 10%;
+            
+        }
+       
+    </style>
+</head>
+
+
+
+<body>    
+
+    
+    <div class="cont">
+        <h1 class="head" style="background-color: white;">Visualization</h1>
+        <div id="chart"></div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Meet Charlie</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        /* Container styles */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Dog section styles */
+        .dog-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Info section styles */
+        .info-section {
+            margin-left: 20px;
+            text-align: left;
+        }
+
+        .info-section h1 {
+            font-size: 24px;
+            color: #ff6600;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .info-section ul li {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .info-section p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .apply-button {
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .apply-button:hover {
+            background-color: #e65c00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="dog-section">
+            <img src="{{item[3]}}" alt="Charlie the dog">
+        </div>
+        <div class="info-section">
+            <h1>Meet {{item[1]}}</h1>
+            <ul>
+                <li><strong>Gender:</strong> Male</li>
+                <li><strong>Neutered:</strong> Yes</li>
+                <li><strong>Age:</strong> 1 year</li>
+                <li><strong>Breed:</strong> {{item[2]}}</li>
+                <li><strong>Vaccinated:</strong> Yes</li>
+                <li><strong>Size:</strong> Large</li>
+            </ul>
+            <p>
+                {{item[1]}} loves to go out for walks and walks very well on a lead. He is very inquisitive and is
+                always on the lookout for rabbits.
+                This boy adores human cuddles and loves to snuggle into you.
+            </p>
+            <form action="/pet/?id={{item[0]}}" method="POST">
+                <button type="submit" class="apply-button">Buy Pet</button>
+            </form>
+
+        </div>
+    </div>
+</body>
+
+</html>

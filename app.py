@@ -27,22 +27,20 @@ def route():
 
 @app.route("/login", methods=['GET'])
 def login():
-    return render_template("login_page.html")
+    session["logged_in"] = False
+    return render_template("login.html")
 
 
 @app.route('/login', methods=['POST',])
 def login_post():
     global logged
-    # session["user"] = "ok"
-    username = request.form["username"]
+    username = request.form["email"]
     password = request.form['password']
-    # username="ok"
-    # password="pass"
     cur = mysql.connection.cursor()
     cur.execute(f"SELECT password FROM users WHERE username LIKE \"{username}\"")
     p = cur.fetchall()
     cur.close()
-    print(p)
+    # print(p)
     if p == () :
         return redirect(url_for("login", message="No Users with given Username Found"))
     elif p[0][0] == password:
@@ -50,8 +48,8 @@ def login_post():
         cur.execute(f"SELECT username,password,is_admin FROM users WHERE username LIKE \"{username}\"")
         p = cur.fetchone()
         cur.close()
-        session["user"] = User(username=p[0], password=p[1], is_admin=p[2]).toString()
-        logged+=1
+        session["user"] = User(username=p[0], password=p[1], is_admin=p[2]).tolist()
+        session["logged_in"] = True
         return redirect(url_for("dashboard"))
     else:
         return redirect(url_for("login"))
@@ -59,23 +57,80 @@ def login_post():
 
 @app.route('/signup',methods=['GET'])
 def signup():
-    return render_template('login.html', button = "signup")
+    session["logged_in"] = False
+    return render_template('signup.html')
+
+@app.route('/aboutus',methods=['GET'])
+def abt():
+    return render_template('aboutus.html')
+
+@app.route('/pie',methods=['GET'])
+def pie(): 
+    #
+    cur = mysql.connection.cursor()
+    #cur.execute("CREATE TABLE IF NOT EXISTS users (username VARCHAR(50),password VARCHAR(50))")
+    cur.execute("SELECT breed, COUNT(breed) AS count FROM pets GROUP BY breed")
+    res =cur.fetchall()
+    data = list(res)   
+    mysql.connection.commit()
+    cur.close()
+    data.insert(0,('breed','count'))
+    dats = [list(a) for a in data]
+    return render_template('pie.html', data=dats) 
+def pie():
+    return render_template('pie.html')
+
+@app.route('/products',methods=['GET'])
+def products():
+    cur = mysql.connection.cursor()
+    #cur.execute("CREATE TABLE IF NOT EXISTS users (username VARCHAR(50),password VARCHAR(50))")
+    cur.execute("select * from pets")
+    res =cur.fetchall()
+    print(res)
+    mysql.connection.commit()
+    cur.close()
+    return render_template('grid.html',items=res)
+
+@app.route('/pet/',methods=['GET'])
+def pets():
+    id = request.args.get('id', type = int)
+    cur = mysql.connection.cursor()
+    #cur.execute("CREATE TABLE IF NOT EXISTS users (username VARCHAR(50),password VARCHAR(50))")
+    cur.execute(f"select * from pets where id = {id}")
+    res =cur.fetchone()
+    mysql.connection.commit()
+    cur.close()
+    print(res)
+    return render_template('single.html',item=res)
+
+@app.route('/pet/',methods=['POST'])
+def pets_post():
+    id = request.args.get('id', type = int)
+    cur = mysql.connection.cursor()
+    #cur.execute("CREATE TABLE IF NOT EXISTS users (username VARCHAR(50),password VARCHAR(50))")
+    cur.execute(f"delete from pets where id = {id}")
+    mysql.connection.commit()
+    cur.close()
+    return redirect(url_for('dashboard'))
 
 @app.route('/signup',methods=['POST'])
 def signup_post():
-    username = request.form['username']
+    username = request.form['name']
     password = request.form['password']
     cur = mysql.connection.cursor()
     #cur.execute("CREATE TABLE IF NOT EXISTS users (username VARCHAR(50),password VARCHAR(50))")
-    cur.execute(f"INSERT INTO users VALUES ({username}, {password})")
+    cur.execute(f"INSERT INTO users VALUES (\"{username}\", \"{password}\", 0)")
     mysql.connection.commit()
     cur.close()
-    return redirect("/home")
+    return redirect(url_for('login'))
 
 @app.route("/dashboard",methods=['GET'])
 def dashboard():
-    return render_template("base.html", \
-                           user=session["user"])
+    if session.get("logged_in"):
+        return render_template("index.html", \
+                            user=session["user"])
+    else:
+        return redirect(url_for("login"))
     
 
 @app.route("/dashboard",methods=['POST'])
@@ -125,4 +180,4 @@ def dashboards():
     print(user_agent,visitor_ip,visited_url,timestamp)
     return redirect("/dashboard")
 
-app.run()
+app.run(debug=True)
